@@ -1,21 +1,24 @@
-name: CI/CD Pipeline
+name: Deploy HTML to GitHub Pages
 
 on:
-    push:
-        branches: [main]
+  push:
+    branches: [ main ]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-        steps:
-        - name: checkout code
-          uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-        - name: Run a test
-          uses: echo "Test passed!"
-        
-        - name: Deploy (mock)
-          run: echo "App deployed successfully!"
-    
-    
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload static files
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: F:\Programming\DE\my-ci-cd\index.html  # uploads your current folder (where index.html is)
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2
