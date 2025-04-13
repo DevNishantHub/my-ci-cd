@@ -19,16 +19,21 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # ✅ v4 version
+        uses: actions/checkout@v4
 
       - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4  # ✅ v4 version
+        uses: actions/configure-pages@v4
+
+      - name: List files to be deployed
+        run: |
+          echo "Files to be deployed:"
+          ls -la
 
       - name: Upload HTML to GitHub Pages
-        uses: actions/upload-pages-artifact@v2  # ✅ v2 is latest for this action
+        uses: actions/upload-pages-artifact@v3  # Updated to v3
         with:
-          path: .  # Assumes index.html is in root
+          path: ./  # Using ./ to ensure all files in the repository root are included
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2  # ✅ v2 is latest for this action
+        uses: actions/deploy-pages@v3  # Updated to v3
