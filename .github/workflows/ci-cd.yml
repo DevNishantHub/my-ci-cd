@@ -2,23 +2,37 @@ name: Deploy HTML to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]  # or your default branch
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v3
 
-      - name: Upload static files
+      - name: Upload website
         uses: actions/upload-pages-artifact@v2
         with:
-          path: F:\Programming\DE\my-ci-cd\index.html  # uploads your current folder (where index.html is)
+          path: .  # Make sure your index.html is in root
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          branch: gh-pages  # or your preferred branch for GitHub Pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .  # Make sure your index.html is in root    
